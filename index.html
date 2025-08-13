@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agentic RAG WhatsApp Chatbot using n8n</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            line-height: 1.6;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+        h1 {
+            color: #007bff;
+        }
+        h2 {
+            color: #444;
+            margin-top: 25px;
+        }
+        ul {
+            margin-left: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+        table, th, td {
+            border: 1px solid #ccc;
+        }
+        th {
+            background-color: #007bff;
+            color: white;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+        .tip {
+            background-color: #eaf4ff;
+            border-left: 4px solid #007bff;
+            padding: 10px;
+            margin-top: 15px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Agentic RAG WhatsApp Chatbot for Business using n8n</h1>
+
+    <h2>What is it?</h2>
+    <p>
+        A chatbot that interacts with users on WhatsApp, answers their questions by retrieving relevant info 
+        from your loudspeaker catalog using Retrieval-Augmented Generation (RAG) and Agentic AI logic, 
+        all orchestrated via n8n workflows.
+    </p>
+
+    <h2>Architecture Overview</h2>
+    <ul>
+        <li><strong>WhatsApp Messaging API</strong> (e.g., Twilio, 360dialog) - Receives and sends messages to WhatsApp users.</li>
+        <li><strong>n8n Workflow</strong>
+            <ul>
+                <li>Receives WhatsApp messages</li>
+                <li>Sends queries to Agentic AI + Vector DB</li>
+                <li>Fetches relevant catalog info (RAG)</li>
+                <li>Generates answer (GPT or other LLM)</li>
+                <li>Sends answer back on WhatsApp</li>
+            </ul>
+        </li>
+        <li><strong>Vector Database</strong> (e.g., Pinecone, Weaviate, Local Embedding Store) - Stores embeddings of your loudspeaker catalog for semantic search.</li>
+        <li><strong>Agentic AI / LLM API</strong> - Processes user queries and retrieved data to generate conversational replies.</li>
+    </ul>
+
+    <h2>Step-by-Step Implementation Guide</h2>
+    <h3>Step 1: Prepare Loudspeaker Catalog Data</h3>
+    <ul>
+        <li>Convert catalog into structured data (JSON/CSV).</li>
+        <li>Create text chunks for each product with all specs and features.</li>
+        <li>Generate vector embeddings for each chunk using OpenAI embeddings or similar.</li>
+        <li>Store embeddings in your vector database.</li>
+    </ul>
+
+    <h3>Step 2: Setup WhatsApp Messaging</h3>
+    <ul>
+        <li>Register with a WhatsApp Business API provider (like Twilio or 360dialog).</li>
+        <li>Configure webhook to send incoming messages to your n8n workflow.</li>
+    </ul>
+
+    <h3>Step 3: Build n8n Workflow</h3>
+    <ul>
+        <li><strong>Trigger:</strong> Webhook node to receive WhatsApp messages.</li>
+        <li><strong>Query Agentic AI:</strong> Use HTTP Request or custom node to send the user’s question.</li>
+        <li><strong>Vector Search:</strong> Query your vector DB with embeddings of the user input.</li>
+        <li><strong>LLM Completion:</strong> Send retrieved texts + question to LLM to generate answer.</li>
+        <li><strong>Respond:</strong> Use WhatsApp API node to reply back to the user.</li>
+    </ul>
+
+    <h3>Step 4: Test & Deploy</h3>
+    <ul>
+        <li>Test with sample user questions about loudspeaker models.</li>
+        <li>Ensure answers are accurate and relevant.</li>
+        <li>Deploy workflow and scale as needed.</li>
+    </ul>
+
+    <h2>Example n8n Workflow Components</h2>
+    <table>
+        <tr>
+            <th>Node</th>
+            <th>Purpose</th>
+        </tr>
+        <tr>
+            <td>Webhook</td>
+            <td>Receive WhatsApp user message</td>
+        </tr>
+        <tr>
+            <td>Function (optional)</td>
+            <td>Preprocess the incoming message</td>
+        </tr>
+        <tr>
+            <td>HTTP Request</td>
+            <td>Query Agentic AI / Embedding Search API</td>
+        </tr>
+        <tr>
+            <td>Set / Function Node</td>
+            <td>Prepare prompt combining catalog info</td>
+        </tr>
+        <tr>
+            <td>HTTP Request</td>
+            <td>Call LLM API (GPT or other) for answer</td>
+        </tr>
+        <tr>
+            <td>WhatsApp Node</td>
+            <td>Send answer back to user</td>
+        </tr>
+    </table>
+
+    <h2>Helpful Tips</h2>
+    <div class="tip">
+        <ul>
+            <li>Chunk your catalog text into manageable pieces for embedding.</li>
+            <li>Cache frequent queries to improve response speed.</li>
+            <li>Use message templates for quick responses.</li>
+            <li>Log user queries and responses for improvement.</li>
+            <li>Monitor WhatsApp API usage and limits.</li>
+        </ul>
+    </div>
+
+</body>
+</html>
